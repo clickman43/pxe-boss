@@ -80,10 +80,10 @@ sudo chown -R pxe-boss-api:pxe-boss-api ${API_DIR}
 
 # Създаваме виртуална среда и инсталираме зависимости
 sudo -u pxe-boss-api python3 -m venv ${API_DIR}/venv
-sudo ${API_DIR}/venv/bin/pip install fastapi uvicorn psycopg2-binary
+sudo ${API_DIR}/venv/bin/pip install fastapi uvicorn psycopg2-binary sqlalchemy alembic
 
 # Създаваме примерен "Hello World" API файл
-sudo tee ${API_DIR}/main.py > /dev/null <<-EOF
+sudo cp ./api/src/main.py ${API_DIR}/ <<-EOF
 from fastapi import FastAPI
 
 app = FastAPI()
