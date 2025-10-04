@@ -1,0 +1,8 @@
+DEFAULT menu.c32
+PROMPT 0
+TIMEOUT 50
+ONTIMEOUT main
+MENU TITLE PXE-Boss Bootloader
+LABEL main
+  MENU LABEL Chainload iPXE Bootloader
+  KERNEL ipxe.pxe

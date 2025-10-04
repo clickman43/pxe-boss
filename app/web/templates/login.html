@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PXE-Boss</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">PXE-Boss Login</h2>
+        <form id="loginForm">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" id="username" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <div class="relative">
+                    <input type="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 pr-10" required>
+                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <svg class="h-5 w-5 text-gray-500" id="eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        <svg class="h-5 w-5 text-gray-500 hidden" id="eye-closed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L15 15" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center justify-between"><button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sign In</button></div>
+            <p id="errorMsg" class="text-red-500 text-xs italic mt-4"></p>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async(e)=>{e.preventDefault();const t=document.getElementById('errorMsg');t.textContent='';const n=new FormData;n.append('username',document.getElementById('username').value),n.append('password',document.getElementById('password').value);try{const e=await fetch('/api/auth/token',{method:'POST',body:n});if(!e.ok){const o=await e.json();throw new Error(o.detail||'Login failed')}const o=await e.json();localStorage.setItem('accessToken',o.access_token),window.location.href='/'}catch(e){t.textContent=e.message}});const o=document.getElementById('togglePassword'),d=document.getElementById('password'),s=document.getElementById('eye-open'),i=document.getElementById('eye-closed');o.addEventListener('click',function(e){"password"===d.getAttribute('type')?(d.setAttribute('type','text'),s.classList.add('hidden'),i.classList.remove('hidden')):(d.setAttribute('type','password'),s.classList.remove('hidden'),i.classList.add('hidden'))});
+    </script>
+</body>
+</html>

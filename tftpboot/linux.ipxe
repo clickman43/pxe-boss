@@ -1,0 +1,22 @@
+#!ipxe
+
+echo --- PXE-Boss Manual Linux Boot Test ---
+echo --- Loading Ubuntu Image ---
+
+# Дефинираме пътя до iSCSI таргета на нашия Linux image
+set iscsi-server iscsi:10.5.50.3::::iqn.2025-09.com.pxeboss:ubuntu
+
+echo Connecting to iSCSI target: ${iscsi-server}
+# Свързваме се към iSCSI таргета и го правим достъпен като твърд диск (0x80)
+sanhook --drive 0x80 ${iscsi-server} || goto error
+
+echo Booting from SAN device 0x80...
+# Казваме на компютъра да зареди операционната система от новосвързания диск
+sanboot --no-describe --drive 0x80 || goto error
+
+# Секция за грешки, ако нещо се обърка
+:error
+echo Boot failed! Something is wrong with the iSCSI target or the image file.
+echo Press any key to reboot in 10 seconds...
+sleep 10
+reboot

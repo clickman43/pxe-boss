@@ -1,0 +1,14 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Logs and user-specific configs
+*.log
+configs/settings.json
+
+# Large binary files - DO NOT COMMIT
+images/
